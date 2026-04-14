@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruang Tenang ✨</title>
+    <!-- Aesthetic Serif & Sans-Serif Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons (Modern & Aesthetic) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        :root {
+            --text-dark: #5C544D; 
+            --text-light: #9A9188;
+            --primary: #A3B8A8; 
+            --primary-hover: #8F9E93;
+            --accent: #E8D5CC;
+            
+            --glass-bg: rgba(255, 255, 255, 0.65); 
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --glass-shadow: 0 16px 40px rgba(0, 0, 0, 0.06); 
+            --glass-highlight: inset 0 1px 2px rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+            
+            /* Soft Calming Animated Gradient */
+            background: linear-gradient(-45deg, #F5EFE9, #EBECE4, #F2E8E6, #E0E5E2, #F0EAEB);
+            background-size: 300% 300%;
+            animation: gradientBG 20s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1, h2, h3, .quote {
+            font-family: 'Playfair Display', serif;
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+        }
+
+        /* STRONG Glassmorphism Card Style */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(24px); 
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--glass-border);
+            border-radius: 36px;
+            box-shadow: var(--glass-shadow), var(--glass-highlight);
+            padding: 40px 25px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        /* --- DASHBOARD WIDGETS --- */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .widget {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 20px;
+            box-shadow: var(--glass-shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .time-text { font-size: 2.5rem; font-family: 'Playfair Display', serif; font-weight: 700; color: var(--text-dark); line-height: 1; margin-bottom: 5px; }
+        .date-text { font-size: 0.9rem; color: var(--text-dark); font-weight: 600; line-height: 1.3;}
+        .weather-icon { font-size: 2.8rem; margin-bottom: 5px; } 
+        .weather-text { font-size: 1.1rem; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--text-dark); }
+        .weather-sub { font-size: 0.8rem; color: var(--text-light); font-weight: 600;}
+
+        /* --- MINI CALENDAR --- */
+        .calendar-wrapper {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            text-align: center;
+        }
+        .calendar-day-name {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .calendar-day {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            padding: 5px 0;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            font-weight: 600;
+        }
+        .calendar-day.today {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        .calendar-day.has-record {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 6px rgba(163, 184, 168, 0.5);
+        }
+        .calendar-day.has-record.today {
+            border: none;
+        }
+
+        /* --- HISTORY LIST --- */
+        .history-section {
+            text-align: left;
+            margin-bottom: 10px;
+        }
+        
+        .history-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-left: 5px;
+        }
+        
+        .history-section h3 {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .btn-small {
+            background: rgba(255,255,255,0.7);
+            border: 1px solid var(--glass-border);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-small:hover {
+            background: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transform: translateY(-2px);
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .history-list::-webkit-scrollbar { width: 6px; }
+        .history-list::-webkit-scrollbar-track { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        .history-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.8); border-radius: 10px; }
+
+        .history-item {
+            background: rgba(255,255,255,0.6);
+            border: 1px solid var(--glass-border);
+            border-radius: 22px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .history-item:hover { background: rgba(255,255,255,0.9); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.05); }
+        .history-date { font-weight: 700; font-size: 1rem; color: var(--text-dark); }
+
+        .delete-btn {
+            background: transparent;
+            border: none;
+            color: rgba(154, 145, 136, 0.4);
+            font-size: 1.3rem;
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .delete-btn:hover {
+            color: #EBA796;
+            background: rgba(235, 167, 150, 0.15);
+            transform: scale(1.1);
+        }
+
+        .empty-history {
+            text-align: center;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 20px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 20px;
+        }
+
+        /* --- HISTORY DETAIL ANSWERS --- */
+        .answers-breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .answer-pill {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .answer-pill i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .answer-pill-full {
+            grid-column: 1 / -1;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+
+        .answer-pill-full span {
+            font-weight: 400;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        /* --- TYPOGRAPHY & ELEMENTS --- */
+        h1 { font-size: 2rem; color: var(--text-dark); margin-bottom: 12px; letter-spacing: -0.5px; }
+        p { color: var(--text-dark); font-size: 1.1rem; line-height: 1.6; margin-bottom: 25px; font-weight: 500; }
+
+        .emoji-header { font-size: 3.5rem; margin-bottom: 10px; color: var(--primary); }
+
+        .btn-main {
+            background: var(--primary);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            width: 100%;
+            padding: 18px;
+            border-radius: 24px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Nunito', sans-serif;
+            box-shadow: 0 8px 20px rgba(163, 184, 168, 0.4);
+        }
+
+        .btn-main:hover { background: var(--primary-hover); transform: translateY(-3px); box-shadow: 0 12px 25px rgba(163, 184, 168, 0.5); }
+        
+        .btn-outline {
+            background: rgba(255,255,255,0.5);
+            color: var(--primary);
+            border: 1px dashed var(--primary);
+            box-shadow: none;
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.9); }
+
+        /* Tombol Kembali (Back Button) */
+        .back-btn {
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            background: transparent;
+            border: none;
+            font-size: 1.6rem;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+            z-index: 10;
+        }
+        .back-btn:hover {
+            color: var(--primary);
+            transform: translateX(-3px);
+        }
+
+        /* Input Nama Inline */
+        .name-inline-wrapper {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        .name-inline-wrapper:hover {
+            opacity: 1;
+        }
+        .input-name-inline {
+            background: transparent;
+            border: none;
+            border-bottom: 1px dashed var(--text-light);
+            color: var(--primary);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-align: center;
+            width: 100px;
+            padding: 2px 0;
+            transition: all 0.3s ease;
+        }
+        .input-name-inline:focus {
+            outline: none;
+            border-bottom: 1px solid var(--primary);
+            width: 140px;
+        }
+        .input-name-inline::placeholder {
+            color: rgba(154, 145, 136, 0.5);
+            font-weight: 400;
+        }
+
+        /* Options Grid & Colored Icons */
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .option-btn {
+            background: rgba(255,255,255,0.6);
+            border: 1px solid var(--glass-border);
+            padding: 22px 15px;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-dark);
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .option-btn i { font-size: 2.8rem; transition: transform 0.3s ease; }
+        .option-btn:hover { border-color: white; background: rgba(255,255,255,0.95); transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .option-btn:hover i { transform: scale(1.15); }
+
+        textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.7);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 20px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            resize: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02);
+        }
+        textarea:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(255,255,255,0.5); }
+        textarea::placeholder { color: #888; }
+
+        /* Loading Animation */
+        .breathing-circle {
+            width: 80px; height: 80px;
+            background: rgba(255,255,255,0.8);
+            border: 2px solid var(--glass-border);
+            border-radius: 50%;
+            margin: 0 auto 30px auto;
+            animation: breathe 8s infinite ease-in-out;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+        }
+        @keyframes breathe {
+            0% { transform: scale(0.8); opacity: 0.7; }
+            50% { transform: scale(1.6); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.7; }
+        }
+
+        /* Result & Affirmation */
+        .insight-box {
+            background: rgba(255,255,255,0.7);
+            border: 1px solid var(--glass-border);
+            padding: 25px;
+            border-radius: 24px;
+            text-align: left;
+            line-height: 1.8;
+            margin-top: 15px;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #2C3531;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+        }
+        
+        .affirmation-box {
+            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.5) 100%);
+            border: 1px solid white;
+            padding: 35px 25px;
+            border-radius: 28px;
+            margin: 20px 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+        }
+        
+        .quote-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-style: italic;
+            color: var(--primary);
+            line-height: 1.5;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .lyric-text {
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-style: italic;
+            border-top: 1px dashed rgba(163, 184, 168, 0.4);
+            padding-top: 15px;
+            margin-top: 15px;
+            line-height: 1.5;
+        }
+
+        .lyric-song {
+            font-weight: 700;
+            color: var(--primary);
+            font-style: normal;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Progress Bar */
+        .progress-container { width: 100%; height: 6px; background: rgba(255,255,255,0.3); border-radius: 10px; margin-bottom: 30px; position: absolute; top: 0; left: 0; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--primary); width: 0%; border-radius: 10px; transition: width 0.5s ease; }
+
+        /* Step Transitions */
+        .step { display: none; opacity: 0; transform: translateY(15px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .step.active { display: block; opacity: 1; transform: translateY(0); }
+
+    </style>
+</head>
+<body>
+
+<div id="app-container">
+    
+    <!-- BERANDA / DASHBOARD -->
+    <div id="step-home" class="step active">
+        
+        <!-- Greeting -->
+        <div style="margin-bottom: 20px; text-align: left; padding-left: 5px;">
+            <h2 id="greeting-text" style="font-size: 1.6rem; color: var(--text-dark); font-family: 'Playfair Display', serif;">Selamat datang, </h2>
+            <p style="font-size: 0.95rem; color: var(--text-light); margin-bottom: 0;">Semoga harimu menyenangkan.</p>
+        </div>
+
+        <!-- Widgets -->
+        <div class="dashboard-grid">
+            <div class="widget">
+                <div class="time-text" id="widget-time">--:--</div>
+                <div class="date-text" id="widget-date">Memuat...</div>
+            </div>
+            <div class="widget">
+                <div class="weather-icon" id="widget-weather-icon"><i class="ph-duotone ph-cloud-sun"></i></div>
+                <div class="weather-text" id="widget-weather-text">Memuat...</div>
+                <div class="weather-sub">Cuaca Hari Ini</div>
+            </div>
+        </div>
+
+        <div class="glass-card" style="padding: 30px 20px; margin-bottom: 25px;">
+            <div class="emoji-header"><i class="ph-duotone ph-potted-plant" style="color: var(--primary);"></i></div>
+            <h1 style="font-size: 1.7rem;">Ruang Tenang</h1>
+            <p style="margin-bottom: 0; font-size: 1.05rem;">Ambil napas panjang. Mari jujur dan sadari kondisimu hari ini tanpa penghakiman.</p>
+            
+            <button class="btn-main" onclick="startCheckIn()">Mulai Jeda Sejenak</button>
+            
+            <!-- FITUR BARU: Urai Pikiran dengan Gemini AI -->
+            <button class="btn-main btn-outline" onclick="openReframe()" style="margin-top: 12px; font-size: 1rem;">
+                <i class="ph-duotone ph-wind" style="vertical-align: middle; margin-right: 5px; font-size: 1.3rem;"></i> Urai Benang Kusut di Kepala ✨
+            </button>
+            
+            <!-- Input Nama Inline -->
+            <div class="name-inline-wrapper">
+                <span style="font-size: 0.9rem; color: var(--text-light);">Kamu mau dipanggil siapa?</span>
+                <input type="text" id="home-name-input" class="input-name-inline" placeholder="Nama..." autocomplete="off" oninput="updateNameInline()">
+                <i class="ph-duotone ph-pencil-simple" style="color: var(--text-light); font-size: 0.9rem;"></i>
+            </div>
+        </div>
+
+        <!-- Riwayat & Kalender -->
+        <div class="history-section">
+            <div class="history-section-header">
+                <h3><i class="ph-duotone ph-books" style="vertical-align: middle; margin-right: 5px; color: var(--primary);"></i> Jejak Ketenanganmu</h3>
+                <button class="btn-small" onclick="generateWeeklyReport()"><i class="ph-duotone ph-chart-bar" style="vertical-align: middle;"></i> Laporan</button>
+            </div>
+            
+            <!-- Mini Calendar Tracker -->
+            <div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <span id="calendar-month-str">Bulan Ini</span>
+                    <i class="ph-duotone ph-calendar-check" style="font-size: 1.2rem; color: var(--primary);"></i>
+                </div>
+                <div class="calendar-grid">
+                    <div class="calendar-day-name">M</div>
+                    <div class="calendar-day-name">S</div>
+                    <div class="calendar-day-name">S</div>
+                    <div class="calendar-day-name">R</div>
+                    <div class="calendar-day-name">K</div>
+                    <div class="calendar-day-name">J</div>
+                    <div class="calendar-day-name">S</div>
+                </div>
+                <div class="calendar-grid" id="calendar-days">
+                    <!-- Days Injected via JS -->
+                </div>
+            </div>
+
+            <div class="history-list" id="history-container">
+                <!-- History items will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- WRAPPER UNTUK KUESIONER DAN FITUR LAIN -->
+    <div id="questionnaire-wrapper" class="glass-card" style="display: none; position: relative;">
+        
+        <!-- Tombol Kembali -->
+        <button id="btn-back-kuesioner" class="back-btn" onclick="goBack()" style="display: none;" title="Kembali">
+            <i class="ph-bold ph-arrow-left"></i>
+        </button>
+
+        <div class="progress-container"><div class="progress-bar" id="progress-bar"></div></div>
+
+        <!-- Step 1: Mood -->
+        <div id="step-1" class="step">
+            <h1>Perasaanmu</h1>
+            <p>Jika perasaanmu adalah cuaca hari ini, bagaimana kondisinya?</p>
+            <div class="options-grid">
+                <button class="option-btn" onclick="saveAnswer('mood', 'Cerah dan Tenang', 2, 'ph-sun', '#EBA796')"><i class="ph-duotone ph-sun" style="color: #EBA796;"></i> Cerah</button>
+                <button class="option-btn" onclick="saveAnswer('mood', 'Biasa/Netral', 2, 'ph-leaf', '#A3B8A8')"><i class="ph-duotone ph-leaf" style="color: #A3B8A8;"></i> Biasa Saja</button>
+                <button class="option-btn" onclick="saveAnswer('mood', 'Mendung/Sendu', 2, 'ph-cloud-rain', '#ABC1D1')"><i class="ph-duotone ph-cloud-rain" style="color: #ABC1D1;"></i> Mendung</button>
+                <button class="option-btn" onclick="saveAnswer('mood', 'Badai/Sangat Lelah', 2, 'ph-lightning', '#B2A5D1')"><i class="ph-duotone ph-lightning" style="color: #B2A5D1;"></i> Berbadai</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Energy -->
+        <div id="step-2" class="step">
+            <h1>Energi Fisik</h1>
+            <p>Berapa banyak sisa energi di tubuhmu saat ini?</p>
+            <div class="options-grid">
+                <button class="option-btn" onclick="saveAnswer('energy', 'Penuh', 3)"><i class="ph-duotone ph-battery-full" style="color: #A3B8A8;"></i> Penuh</button>
+                <button class="option-btn" onclick="saveAnswer('energy', 'Cukup', 3)"><i class="ph-duotone ph-battery-high" style="color: #B9CBBF;"></i> Cukup</button>
+                <button class="option-btn" onclick="saveAnswer('energy', 'Menipis', 3)"><i class="ph-duotone ph-battery-low" style="color: #EBC1A0;"></i> Menipis</button>
+                <button class="option-btn" onclick="saveAnswer('energy', 'Kosong/Burnout', 3)"><i class="ph-duotone ph-battery-empty" style="color: #EBA796;"></i> Kosong</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Food -->
+        <div id="step-3" class="step">
+            <h1>Nutrisi</h1>
+            <p>Sudahkah kamu memberikan nutrisi yang baik untuk tubuhmu hari ini?</p>
+            <div class="options-grid">
+                <button class="option-btn" onclick="saveAnswer('food', 'Sudah makan teratur', 4)"><i class="ph-duotone ph-bowl-food" style="color: #C4A99A;"></i> Teratur</button>
+                <button class="option-btn" onclick="saveAnswer('food', 'Baru sedikit', 4)"><i class="ph-duotone ph-bread" style="color: #DBC38E;"></i> Sedikit</button>
+                <button class="option-btn" onclick="saveAnswer('food', 'Hanya jajan manis/gurih', 4)"><i class="ph-duotone ph-cookie" style="color: #D9B498;"></i> Jajan</button>
+                <button class="option-btn" onclick="saveAnswer('food', 'Terlewat', 4)"><i class="ph-duotone ph-x-circle" style="color: #EBA796;"></i> Terlewat</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Water -->
+        <div id="step-4" class="step">
+            <h1>Hidrasi</h1>
+            <p>Bagaimana dengan asupan air putihmu?</p>
+            <div class="options-grid">
+                <button class="option-btn" onclick="saveAnswer('water', 'Cukup terhidrasi', 5)"><i class="ph-duotone ph-drop" style="color: #ABC1D1;"></i> Cukup</button>
+                <button class="option-btn" onclick="saveAnswer('water', 'Sedang', 5)"><i class="ph-duotone ph-pint-glass" style="color: #B5CBCB;"></i> Sedang</button>
+                <button class="option-btn" onclick="saveAnswer('water', 'Kurang minum', 5)"><i class="ph-duotone ph-cactus" style="color: #C2D09D;"></i> Kurang</button>
+                <button class="option-btn" onclick="saveAnswer('water', 'Hanya kafein', 5)"><i class="ph-duotone ph-coffee" style="color: #C4A99A;"></i> Kopi/Teh</button>
+            </div>
+        </div>
+
+        <!-- Step 5: Screen Time -->
+        <div id="step-5" class="step">
+            <h1>Pikiran & Layar</h1>
+            <p>Seberapa sering matamu menatap layar hari ini?</p>
+            <div class="options-grid">
+                <button class="option-btn" onclick="saveAnswer('scroll', 'Sangat minim', 6)"><i class="ph-duotone ph-plant" style="color: #A3B8A8;"></i> Minim</button>
+                <button class="option-btn" onclick="saveAnswer('scroll', 'Wajar (tugas/kerja)', 6)"><i class="ph-duotone ph-laptop" style="color: #ABC1D1;"></i> Wajar</button>
+                <button class="option-btn" onclick="saveAnswer('scroll', 'Lumayan lama', 6)"><i class="ph-duotone ph-device-mobile" style="color: #D69E9E;"></i> Lama</button>
+                <button class="option-btn" onclick="saveAnswer('scroll', 'Terjebak doomscrolling', 6)"><i class="ph-duotone ph-spiral" style="color: #B2A5D1;"></i> Terjebak</button>
+            </div>
+        </div>
+
+        <!-- Step 6: Sleep -->
+        <div id="step-6" class="step">
+            <h1>Istirahat Malam</h1>
+            <p>Bagaimana kualitas tidurmu semalam?</p>
+            <div class="options-grid">
+                <button class="option-btn" onclick="saveAnswer('sleep', 'Nyenyak dan segar', 7)"><i class="ph-duotone ph-moon-stars" style="color: #A8A3C7;"></i> Nyenyak</button>
+                <button class="option-btn" onclick="saveAnswer('sleep', 'Cukup', 7)"><i class="ph-duotone ph-bed" style="color: #ABC1D1;"></i> Cukup</button>
+                <button class="option-btn" onclick="saveAnswer('sleep', 'Kurang tidur', 7)"><i class="ph-duotone ph-clock-countdown" style="color: #EBC1A0;"></i> Kurang</button>
+                <button class="option-btn" onclick="saveAnswer('sleep', 'Insomnia/sulit', 7)"><i class="ph-duotone ph-eye-closed" style="color: #EBA796;"></i> Sulit Tidur</button>
+            </div>
+        </div>
+
+        <!-- Step 7: Journal -->
+        <div id="step-7" class="step">
+            <h1>Jurnal Singkat</h1>
+            <p>Ruang ini aman untukmu. Apa yang sedang membebani pikiranmu atau apa yang ingin kamu syukuri hari ini?</p>
+            <textarea id="journal-input" rows="4" placeholder="Tulis pelan-pelan di sini... (kosongkan juga tidak apa-apa)"></textarea>
+            <button class="btn-main" onclick="submitData()">Resapi & Selesai <i class="ph-duotone ph-sparkle" style="vertical-align: middle; font-size: 1.4rem; margin-left: 5px;"></i></button>
+        </div>
+
+        <!-- FITUR BARU: Step Reframe Input -->
+        <div id="step-reframe-input" class="step">
+            <div class="emoji-header"><i class="ph-duotone ph-wind" style="color: #ABC1D1;"></i></div>
+            <h1>Urai Benang Kusut</h1>
+            <p>Pikiran negatif atau kecemasan apa yang sedang terus-menerus mengganggumu saat ini? Tumpahkan semuanya di sini.</p>
+            <textarea id="reframe-input" rows="5" placeholder="Misal: 'Aku merasa gagal karena pekerjaanku tidak selesai hari ini, aku merasa diriku tidak berguna...'"></textarea>
+            <button class="btn-main" onclick="submitReframe()" style="background: #ABC1D1;">Bantu Aku Melihatnya Berbeda <i class="ph-duotone ph-sparkle" style="vertical-align: middle; font-size: 1.4rem; margin-left: 5px;"></i></button>
+        </div>
+
+        <!-- Mindful Loading -->
+        <div id="step-loading" class="step" style="padding: 50px 0;">
+            <div class="breathing-circle"><i class="ph-duotone ph-flower-lotus" style="color: var(--primary); font-size: 3rem;"></i></div>
+            <h2 id="loading-breathe-instruction" style="color: var(--text-dark); font-size: 1.8rem;">Tarik napas perlahan...</h2>
+            <p style="margin-top: 15px; font-weight: 600;" id="loading-subtext">Menyelami perasaanmu...</p>
+        </div>
+
+        <!-- Result (Insight / Checkin) -->
+        <div id="step-finish" class="step">
+            <span style="font-size: 0.85rem; letter-spacing: 2px; color: var(--primary); text-transform: uppercase; font-weight: 700;">Catatan Hari Ini</span>
+            <h1 style="margin-top: 8px;">Refleksi Untukmu</h1>
+            <div class="insight-box" id="result-text">
+                <!-- AI text appears here -->
+            </div>
+            <button class="btn-main" onclick="goToStep('affirmation')">Baca Pesan Penutup <i class="ph-duotone ph-heart" style="vertical-align: middle; font-size: 1.4rem; margin-left: 5px;"></i></button>
+        </div>
+
+        <!-- Result (Reframe) -->
+        <div id="step-reframe-result" class="step">
+            <span style="font-size: 0.85rem; letter-spacing: 2px; color: #ABC1D1; text-transform: uppercase; font-weight: 700;">Sudut Pandang Baru</span>
+            <h1 style="margin-top: 8px;">Uraian Pikiranmu</h1>
+            <div class="insight-box" id="reframe-result-text" style="background: rgba(255,255,255,0.85); border-color: #ABC1D1;">
+                <!-- AI Reframe text appears here -->
+            </div>
+            <p style="font-size: 1rem; font-weight: 600; margin-top: 20px;">Catatan penguraian pikiran ini telah disimpan di riwayatmu.</p>
+            <button class="btn-main" onclick="returnToHome()" style="background: #ABC1D1;">Simpan & Lega <i class="ph-duotone ph-check-circle" style="vertical-align: middle; font-size: 1.4rem; margin-left: 5px;"></i></button>
+        </div>
+
+        <!-- Affirmation & Save -->
+        <div id="step-affirmation" class="step">
+            <div class="emoji-header"><i class="ph-duotone ph-envelope-open" style="color: var(--primary);"></i></div>
+            <h1>Pelukan Hangat</h1>
+            <div class="affirmation-box">
+                <div class="quote-text" id="affirmation-text">"Kamu berharga."</div>
+                <div class="lyric-text" id="affirmation-lyric" style="display: none;">
+                    <!-- Lyric will appear here -->
+                </div>
+            </div>
+            <p style="font-size: 1.05rem; font-weight: 600;">Catatan ini telah tersimpan di riwayatmu.</p>
+            <button class="btn-main btn-outline" onclick="returnToHome()">Kembali ke Beranda</button>
+        </div>
+        
+        <!-- View History Detail -->
+        <div id="step-history-detail" class="step">
+            <h1 id="history-detail-date">Tanggal</h1>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-bottom: 25px; font-size: 3rem;" id="history-detail-icons">
+                <!-- Icons injected here -->
+            </div>
+            
+            <!-- Opsi Detail (Pills) -->
+            <div class="answers-breakdown" id="history-detail-answers">
+                <!-- Answers injected here -->
+            </div>
+
+            <div class="insight-box" id="history-detail-text" style="font-size: 1.05rem;">
+                <!-- AI Text -->
+            </div>
+            
+            <div id="history-detail-affirmation-container">
+                <div class="affirmation-box" style="padding: 25px; margin-top: 20px;">
+                    <div class="quote-text" id="history-detail-quote" style="font-size: 1.25rem;"></div>
+                    <div class="lyric-text" id="history-detail-lyric" style="display: none;">
+                        <!-- Lyric will appear here -->
+                    </div>
+                </div>
+            </div>
+            <button class="btn-main btn-outline" onclick="returnToHome()">Kembali</button>
+        </div>
+
+        <!-- View Weekly Report -->
+        <div id="step-weekly-report" class="step">
+            <div class="emoji-header"><i class="ph-duotone ph-chart-line-up" style="color: var(--primary);"></i></div>
+            <h1>Laporan Mingguanmu</h1>
+            <div class="insight-box" id="weekly-report-text">
+                <!-- AI Report -->
+            </div>
+            <button class="btn-main btn-outline" onclick="returnToHome()">Kembali ke Beranda</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    const apiKey = ""; // API Key Gemini-mu otomatis disuntikkan oleh sistem
+    let userData = {};
+    const totalSteps = 7;
+    let currentStepNum = 1; // Menyimpan status step saat ini untuk tombol Back
+    let userName = localStorage.getItem('ruang_tenang_name') || "";
+    let loadingInterval;
+
+    const affirmations = [
+        { quote: "Tidak semua beban harus kamu selesaikan hari ini. Letakkan sejenak, kamu aman di sini.", lyric: "Tenangkan hati, semua ini bukan salahmu. Jangan berhenti, yang kau takutkan takkan terjadi.", song: "Kunto Aji - Rehat" },
+        { quote: "Kamu telah bertahan melewati 100% hari-hari burukmu. Hari ini pun akan berlalu.", lyric: "Yang patah tumbuh, yang hilang berganti. Yang hancur lebur akan terobati.", song: "Banda Neira - Yang Patah Tumbuh, Yang Hilang Berganti" },
+        { quote: "Istirahat bukanlah sebuah kemalasan, melainkan caramu mencintai diri sendiri.", lyric: "Perjalanan masih panjang, kau bisa istirahat sayang.", song: "Hindia - Evaluasi" },
+        { quote: "Seperti cuaca, perasaan kelabu ini akan berlalu. Izinkan dirimu merasakannya.", lyric: "Semua yang sirna kan nanti berganti. Bersedih secukupnya, secukupnya saja.", song: "Hindia - Secukupnya" },
+        { quote: "Kamu berharga, bukan karena produktivitasmu, tapi karena esensimu sebagai manusia.", lyric: "Tak sempurna, tak mengapa. Aku apa adanya.", song: "Yura Yunita - Tutur Batin" },
+        { quote: "Napas demi napas, langkah demi langkah. Pelan-pelan saja.", lyric: "Hari ini kau berdamai dengan dirimu sendiri. Maafkan semua yang lalu, ampuni hatimu.", song: "Tulus - Diri" },
+        { quote: "Terima kasih sudah bertahan. Tubuh dan pikiranmu sudah bekerja sangat keras.", lyric: "Tak apa merana, tak apa kecewa. Karena luka, juga manusia.", song: "Idgitaf - Semoga Sembuh" }
+    ];
+
+    // --- SOUND EFFECT (SFX) LOGIC (WEB AUDIO API) ---
+    // Menciptakan suara 'soft pop/click' secara mandiri tanpa file eksternal agar tidak error
+    let audioCtx;
+    function playClickSFX() {
+        try {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine';
+            // Frekuensi turun cepat untuk efek "pop/tik" yang halus
+            osc.frequency.setValueAtTime(700, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.05);
+
+            // Volume mengecil cepat (fade out)
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.05);
+        } catch(e) {
+            // Abaikan jika browser lawas tidak mendukung
+        }
+    }
+
+    // Memutar SFX untuk semua tombol
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('button')) {
+            playClickSFX();
+        }
+    });
+
+    // --- INIT APP & GREETING ---
+    function initApp() {
+        document.getElementById('home-name-input').value = userName;
+        updateGreeting();
+        document.getElementById('step-home').style.display = 'block';
+        setTimeout(() => document.getElementById('step-home').classList.add('active'), 50);
+        renderMiniCalendar();
+    }
+
+    function updateNameInline() {
+        const newName = document.getElementById('home-name-input').value.trim();
+        userName = newName;
+        localStorage.setItem('ruang_tenang_name', userName);
+        updateGreeting();
+    }
+
+    function updateGreeting() {
+        const hour = new Date().getHours();
+        let greeting = "Selamat malam";
+        let timeIcon = "ph-moon-stars";
+        let iconColor = "#A8A3C7"; 
+        
+        if (hour >= 4 && hour < 11) {
+            greeting = "Selamat pagi";
+            timeIcon = "ph-sun-horizon";
+            iconColor = "#E8C28A"; 
+        }
+        else if (hour >= 11 && hour < 15) {
+            greeting = "Selamat siang";
+            timeIcon = "ph-sun";
+            iconColor = "#EBA796"; 
+        }
+        else if (hour >= 15 && hour < 18) {
+            greeting = "Selamat sore";
+            timeIcon = "ph-cloud-sun";
+            iconColor = "#D9B498"; 
+        }
+        
+        const nameDisplay = userName ? `, ${userName}` : "";
+        document.getElementById('greeting-text').innerHTML = `<i class="ph-duotone ${timeIcon}" style="color: ${iconColor}; font-size: 2rem; vertical-align: middle; margin-right: 6px;"></i>${greeting}${nameDisplay}`;
+    }
+
+    // --- WIDGET LOGIC ---
+    function updateWidgets() {
+        const now = new Date();
+        document.getElementById('widget-time').innerText = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        document.getElementById('widget-date').innerText = now.toLocaleDateString('id-ID', options);
+    }
+    
+    setInterval(updateWidgets, 1000);
+    updateWidgets();
+
+    async function fetchWeather() {
+        try {
+            const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=-6.9932&longitude=110.4203&current_weather=true');
+            const data = await res.json();
+            const code = data.current_weather.weathercode;
+            
+            let icon = "ph-sun";
+            let text = "Cerah Berawan";
+            let color = "#EBA796"; 
+            
+            if (code === 0) { icon = "ph-sun"; text = "Cerah"; color = "#E8C28A"; }
+            else if (code >= 1 && code <= 3) { icon = "ph-cloud-sun"; text = "Berawan"; color = "#EBA796"; }
+            else if (code >= 45 && code <= 48) { icon = "ph-cloud-fog"; text = "Berkabut"; color = "#B6C3C3"; }
+            else if (code >= 51 && code <= 67) { icon = "ph-cloud-rain"; text = "Hujan"; color = "#ABC1D1"; }
+            else if (code >= 71 && code <= 77) { icon = "ph-snowflake"; text = "Salju"; color = "#D1E0E0"; }
+            else if (code >= 95) { icon = "ph-cloud-lightning"; text = "Badai"; color = "#B2A5D1"; }
+
+            document.getElementById('widget-weather-icon').innerHTML = `<i class="ph-duotone ${icon}" style="color: ${color};"></i>`;
+            document.getElementById('widget-weather-text').innerText = text;
+        } catch (e) {
+            document.getElementById('widget-weather-icon').innerHTML = `<i class="ph-duotone ph-leaf" style="color: var(--primary);"></i>`;
+            document.getElementById('widget-weather-text').innerText = "Damai";
+        }
+    }
+    fetchWeather();
+
+    // --- MINI CALENDAR LOGIC ---
+    function renderMiniCalendar() {
+        const calGrid = document.getElementById('calendar-days');
+        const calMonthStr = document.getElementById('calendar-month-str');
+        calGrid.innerHTML = '';
+
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+
+        const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        calMonthStr.innerText = `${monthNames[month]} ${year}`;
+
+        const firstDay = new Date(year, month, 1).getDay(); // 0 is Sunday
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        const history = JSON.parse(localStorage.getItem('ruang_tenang_history')) || [];
+        const recordDates = history.map(entry => entry.date); // e.g. "14 April 2026"
+
+        // Offset grid agar mulai dari hari yang benar
+        for (let i = 0; i < firstDay; i++) {
+            calGrid.innerHTML += `<div></div>`;
+        }
+
+        // Isi tanggal
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dateObj = new Date(year, month, d);
+            const dateStr = dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+            
+            let classes = 'calendar-day';
+            
+            // Cek apakah tanggal ini sama dengan hari ini
+            if (dateObj.toDateString() === now.toDateString()) {
+                classes += ' today';
+            }
+            
+            // Cek apakah user punya riwayat check-in di tanggal ini
+            if (recordDates.includes(dateStr)) {
+                classes += ' has-record';
+            }
+
+            calGrid.innerHTML += `<div class="${classes}">${d}</div>`;
+        }
+    }
+
+    // --- HISTORY LOGIC ---
+    function loadHistory() {
+        const historyContainer = document.getElementById('history-container');
+        const history = JSON.parse(localStorage.getItem('ruang_tenang_history')) || [];
+        
+        historyContainer.innerHTML = '';
+
+        if (history.length === 0) {
+            historyContainer.innerHTML = '<div class="empty-history">Belum ada catatan.<br>Mari mulai refleksi pertamamu.</div>';
+            renderMiniCalendar(); // Update calendar
+            return;
+        }
+
+        history.forEach((entry, index) => {
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            
+            let moodIconClass = entry.moodIcon || "ph-leaf";
+            let moodIconColor = entry.moodColor || "#446C60";
+            
+            // Tambahkan label khusus jika tipenya "reframe"
+            let badgeHtml = entry.type === 'reframe' ? `<span style="font-size: 0.7rem; background: #ABC1D1; color: white; padding: 2px 6px; border-radius: 8px; margin-left: 6px;">Urai Pikiran</span>` : '';
+
+            div.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="history-mood" style="font-size: 1.8rem; color: ${moodIconColor};"><i class="ph-duotone ${moodIconClass}"></i></div>
+                    <div>
+                        <div class="history-date">${entry.date} ${badgeHtml}</div>
+                        <div style="font-size: 0.85rem; color: var(--text-light); font-weight: 600;">${entry.time}</div>
+                    </div>
+                </div>
+                <button class="delete-btn" onclick="deleteHistory(${index}, event)" title="Hapus catatan">
+                    <i class="ph-duotone ph-trash"></i>
+                </button>
+            `;
+            div.onclick = (e) => {
+                if(e.target.closest('.delete-btn')) return;
+                openHistoryDetail(index);
+            };
+            historyContainer.appendChild(div);
+        });
+        
+        renderMiniCalendar(); // Selalu update kalender saat riwayat diload
+    }
+
+    function deleteHistory(index, event) {
+        event.stopPropagation();
+        const history = JSON.parse(localStorage.getItem('ruang_tenang_history')) || [];
+        history.splice(index, 1);
+        localStorage.setItem('ruang_tenang_history', JSON.stringify(history));
+        loadHistory(); 
+    }
+
+    function saveToHistory(aiResponse, affirmationObj, isReframe = false) {
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+        const history = JSON.parse(localStorage.getItem('ruang_tenang_history')) || [];
+        
+        let newEntry;
+        if (isReframe) {
+            newEntry = {
+                type: 'reframe',
+                date: dateStr,
+                time: timeStr,
+                timestamp: Date.now(),
+                aiText: aiResponse,
+                originalThought: userData.reframeThought,
+                moodIcon: "ph-wind",
+                moodColor: "#ABC1D1"
+            };
+        } else {
+            newEntry = {
+                ...userData,
+                type: 'checkin',
+                date: dateStr,
+                time: timeStr,
+                timestamp: Date.now(),
+                aiText: aiResponse,
+                quoteObj: affirmationObj
+            };
+        }
+
+        history.unshift(newEntry);
+        localStorage.setItem('ruang_tenang_history', JSON.stringify(history));
+    }
+
+    function openHistoryDetail(index) {
+        const history = JSON.parse(localStorage.getItem('ruang_tenang_history')) || [];
+        const entry = history[index];
+        
+        document.getElementById('history-detail-date').innerText = entry.date;
+        document.getElementById('history-detail-text').innerText = entry.aiText;
+        
+        const answersContainer = document.getElementById('history-detail-answers');
+        const affirmationContainer = document.getElementById('history-detail-affirmation-container');
+
+        if (entry.type === 'reframe') {
+            // Tampilan khusus untuk fitur Urai Pikiran
+            answersContainer.innerHTML = `
+                <div class="answer-pill answer-pill-full" style="border-color: #ABC1D1;">
+                    <i class="ph-duotone ph-cloud-warning" style="color: #ABC1D1;"></i> Pikiran Awal: 
+                    <span style="font-style: italic; color: var(--text-dark); margin-top: 5px;">"${entry.originalThought}"</span>
+                </div>
+            `;
+            affirmationContainer.style.display = 'none'; // Sembunyikan blok lirik lagu
+        } else {
+            // Tampilan standar untuk Check-In Harian
+            answersContainer.innerHTML = `
+                <div class="answer-pill" title="Energi Fisik"><i class="ph-duotone ph-battery-charging"></i> ${entry.energy || '-'}</div>
+                <div class="answer-pill" title="Pola Makan"><i class="ph-duotone ph-bowl-food"></i> ${entry.food || '-'}</div>
+                <div class="answer-pill" title="Asupan Air"><i class="ph-duotone ph-drop"></i> ${entry.water || '-'}</div>
+                <div class="answer-pill" title="Tidur Malam"><i class="ph-duotone ph-moon-stars"></i> ${entry.sleep || '-'}</div>
+                <div class="answer-pill answer-pill-full"><i class="ph-duotone ph-device-mobile"></i> Layar: <span>${entry.scroll || '-'}</span></div>
+                <div class="answer-pill answer-pill-full"><i class="ph-duotone ph-pencil-simple"></i> Jurnal: <span>${entry.thought || 'Kosong.'}</span></div>
+            `;
+            
+            affirmationContainer.style.display = 'block';
+            const detailQuoteEl = document.getElementById('history-detail-quote');
+            const detailLyricEl = document.getElementById('history-detail-lyric');
+
+            if (typeof entry.quoteObj === 'string' || typeof entry.quote === 'string') {
+                detailQuoteEl.innerText = `"${entry.quoteObj || entry.quote}"`;
+                detailLyricEl.style.display = 'none';
+            } else if (entry.quoteObj) {
+                detailQuoteEl.innerText = `"${entry.quoteObj.quote}"`;
+                detailLyricEl.innerHTML = `<i class="ph-duotone ph-music-notes" style="font-size: 1.1rem; vertical-align: middle; margin-right: 4px;"></i>"${entry.quoteObj.lyric}"<span class="lyric-song">— ${entry.quoteObj.song}</span>`;
+                detailLyricEl.style.display = 'block';
+            }
+        }
+        
+        const iconClass = entry.moodIcon || "ph-leaf";
+        const iconColor = entry.moodColor || "var(--primary)";
+        document.getElementById('history-detail-icons').innerHTML = `<i class="ph-duotone ${iconClass}" style="color: ${iconColor};"></i>`;
+
+        document.getElementById('step-home').classList.remove('active');
+        document.getElementById('step-home').style.display = 'none';
+        
+        document.getElementById('questionnaire-wrapper').style.display = 'block';
+        
+        document.querySelectorAll('.step').forEach(el => {
+            el.classList.remove('active');
+            el.style.display = 'none';
+        });
+        
+        const detailStep = document.getElementById('step-history-detail');
+        detailStep.style.display = 'block';
+        setTimeout(() => detailStep.classList.add('active'), 50);
+        
+        // Hide back button on details
+        document.getElementById('btn-back-kuesioner').style.display = 'none';
+    }
+
+    // --- NAVIGATION LOGIC ---
+    function startCheckIn() {
+        userData = {};
+        currentStepNum = 1;
+        document.getElementById('step-home').classList.remove('active');
+        setTimeout(() => {
+            document.getElementById('step-home').style.display = 'none';
+            document.getElementById('questionnaire-wrapper').style.display = 'block';
+            goToStep(1);
+        }, 400);
+    }
+
+    // Navigasi Fitur Urai Pikiran
+    function openReframe() {
+        userData = {};
+        currentStepNum = 'reframe'; // Penanda state
+        document.getElementById('step-home').classList.remove('active');
+        setTimeout(() => {
+            document.getElementById('step-home').style.display = 'none';
+            document.getElementById('questionnaire-wrapper').style.display = 'block';
+            goToStep('reframe-input');
+        }, 400);
+    }
+
+    function returnToHome() {
+        document.getElementById('questionnaire-wrapper').style.display = 'none';
+        document.querySelectorAll('.step').forEach(el => {
+            el.classList.remove('active');
+            el.style.display = 'none';
+        });
+        
+        const home = document.getElementById('step-home');
+        home.style.display = 'block';
+        setTimeout(() => home.classList.add('active'), 50);
+        
+        loadHistory();
+    }
+
+    function goBack() {
+        if (currentStepNum === 1 || currentStepNum === 'reframe') {
+            returnToHome();
+        } else if (typeof currentStepNum === 'number' && currentStepNum > 1) {
+            goToStep(currentStepNum - 1);
+        }
+    }
+
+    function goToStep(step) {
+        document.querySelectorAll('.step').forEach(el => {
+            el.classList.remove('active');
+            setTimeout(() => el.style.display = 'none', 400); 
+        });
+
+        setTimeout(() => {
+            const target = document.getElementById('step-' + step);
+            if (target) {
+                target.style.display = 'block';
+                void target.offsetWidth; 
+                target.classList.add('active');
+            }
+
+            const pb = document.getElementById('progress-bar');
+            const backBtn = document.getElementById('btn-back-kuesioner');
+            
+            // Logic tampilan tombol & progress bar berdasarkan step
+            if (typeof step === 'number' && step <= totalSteps) {
+                currentStepNum = step; 
+                pb.parentElement.style.display = 'block';
+                pb.style.width = ((step) / totalSteps) * 100 + '%';
+                backBtn.style.display = 'block'; 
+            } else if (step === 'reframe-input') {
+                pb.parentElement.style.display = 'none';
+                backBtn.style.display = 'block'; // Tampilkan tombol back untuk fitur reframe
+            } else {
+                pb.parentElement.style.display = 'none';
+                backBtn.style.display = 'none'; 
+            }
+        }, 400);
+    }
+
+    function saveAnswer(key, value, nextStepNum, iconClass = null, iconColor = null) {
+        userData[key] = value;
+        if (iconClass && key === 'mood') {
+            userData['moodIcon'] = iconClass;
+            userData['moodColor'] = iconColor;
+        }
+        goToStep(nextStepNum);
+    }
+
+    function submitData() {
+        userData['thought'] = document.getElementById('journal-input').value;
+        generateAIResponse();
+    }
+
+    // --- AI LOGIC DENGAN RETRY (EXPONENTIAL BACKOFF) ---
+    async function fetchFromAI(userQuery, systemPrompt) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        const options = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            })
+        };
+
+        const delays = [1000, 2000, 4000, 8000, 16000];
+        for (let i = 0; i < 5; i++) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const result = await response.json();
+                return result.candidates?.[0]?.content?.parts?.[0]?.text;
+            } catch (error) {
+                if (i === 4) throw error;
+                await new Promise(res => setTimeout(res, delays[i]));
+            }
+        }
+    }
+
+    // --- AI LOGIC (DAILY CHECK-IN) ---
+    function loadingBreathingLoop() {
+        const textEl = document.getElementById('loading-breathe-instruction');
+        let isInhale = true;
+        return setInterval(() => {
+            isInhale = !isInhale;
+            textEl.innerText = isInhale ? "Tarik napas perlahan..." : "Hembuskan perlahan...";
+        }, 4000); 
+    }
+
+    async function generateAIResponse() {
+        goToStep('loading');
+        document.getElementById('loading-subtext').innerText = "Menyelami perasaanmu...";
+        loadingInterval = loadingBreathingLoop();
+        
+        const systemPrompt = `Kamu adalah 'Ruang Tenang', sahabat virtual yang mindfulness.
+        1. Gunakan sapaan 'Kamu' dan 'Aku'. Gunakan bahasa Indonesia yang friendly (seperti sahabat yang peduli), estetik, hangat, dan sangat menenangkan. Sapa pengguna dengan namanya.
+        2. Analisis data fisik dan mental pengguna.
+        3. Validasi perasaan mereka tanpa menggurui.
+        4. Berikan SATU saran 'mindful grounding' ringan.
+        5. Format: Maksimal 3 paragraf pendek. Gunakan emoji kalem (🌿, 🤍, ✨, ☕, 🫂).`;
+
+        const userQuery = `Nama pengguna: ${userName}. Data: Mood: ${userData.mood}, Energi: ${userData.energy}, Makan: ${userData.food}, Minum: ${userData.water}, Layar: ${userData.scroll}, Tidur: ${userData.sleep}. Pikiran: ${userData.thought || 'Kosong.'}`;
+
+        let aiTextFinal = "";
+        
+        try {
+            aiTextFinal = await fetchFromAI(userQuery, systemPrompt);
+            if (!aiTextFinal) throw new Error("Response kosong dari AI");
+        } catch (error) {
+            console.error("AI Error:", error);
+            aiTextFinal = "Saat ini aku sedang kesulitan merangkai kata. Tapi satu hal yang pasti: perasaanmu hari ini valid, dan kamu berhak untuk istirahat. Jangan lupa minum segelas air ya. 🤍";
+        }
+
+        setTimeout(() => {
+            clearInterval(loadingInterval);
+            
+            const chosenItem = affirmations[Math.floor(Math.random() * affirmations.length)];
+            
+            saveToHistory(aiTextFinal, chosenItem, false);
+            
+            document.getElementById('result-text').innerText = aiTextFinal;
+            document.getElementById('affirmation-text').innerText = `"${chosenItem.quote}"`;
+            
+            const lyricDiv = document.getElementById('affirmation-lyric');
+            lyricDiv.innerHTML = `<i class="ph-duotone ph-music-notes" style="font-size: 1.1rem; vertical-align: middle; margin-right: 4px;"></i>"${chosenItem.lyric}"<span class="lyric-song">— ${chosenItem.song}</span>`;
+            lyricDiv.style.display = 'block';
+            
+            goToStep('finish');
+        }, 4000);
+    }
+
+    // --- FITUR BARU: AI LOGIC (COGNITIVE REFRAMING) ---
+    async function submitReframe() {
+        const inputEl = document.getElementById('reframe-input');
+        const thought = inputEl.value.trim();
+        
+        if (!thought) {
+            alert("Tuliskan dulu sedikit beban pikiranmu agar aku bisa membantumu.");
+            return;
+        }
+
+        userData.reframeThought = thought;
+        
+        goToStep('loading');
+        document.getElementById('loading-subtext').innerText = "Mengurai benang kusut di kepalamu...";
+        loadingInterval = loadingBreathingLoop();
+
+        const systemPrompt = `Kamu adalah 'Ruang Tenang', sahabat virtual yang mengerti ilmu psikologi dan mindfulness. 
+        Pengguna sedang membagikan kecemasan, pikiran negatif, atau overthinking.
+        Tugasmu:
+        1. Validasi perasaannya terlebih dahulu (misal: "Sangat wajar kalau kamu merasa seperti itu...").
+        2. Berikan "Cognitive Reframing" (Ubah Sudut Pandang). Bantu ia melihat situasi ini secara lebih objektif, logis, dan welas asih (self-compassion). Patahkan pikiran negatifnya dengan lembut.
+        3. Gunakan sapaan 'Kamu' dan 'Aku', bahasa Indonesia yang santai, estetik, hangat, dan menenangkan layaknya sahabat.
+        4. Format: Maksimal 2 paragraf pendek yang melegakan. Gunakan emoji estetik yang kalem (☁️, 🤍, 🌿, ✨).`;
+
+        const userQuery = `Nama pengguna: ${userName}. Pikiran negatif/Cemas saat ini: "${thought}"`;
+
+        let aiTextFinal = "";
+
+        try {
+            aiTextFinal = await fetchFromAI(userQuery, systemPrompt);
+            if (!aiTextFinal) throw new Error("Response kosong dari AI");
+        } catch (error) {
+            console.error("AI Error:", error);
+            aiTextFinal = "Maaf, aku sedang kesulitan mengurai kata saat ini. Namun ketahuilah, pikiran cemasmu saat ini bukanlah fakta yang sebenarnya. Cobalah tarik napas pelan-pelan, kamu aman di sini. 🤍☁️";
+        }
+
+        setTimeout(() => {
+            clearInterval(loadingInterval);
+            inputEl.value = ""; // Clear input for next time
+            
+            saveToHistory(aiTextFinal, null, true); // Save as reframe
+            
+            document.getElementById('reframe-result-text').innerText = aiTextFinal;
+            goToStep('reframe-result');
+        }, 4000);
+    }
+
+    // --- AI LOGIC (WEEKLY REPORT) ---
+    async function generateWeeklyReport() {
+        const history = JSON.parse(localStorage.getItem('ruang_tenang_history')) || [];
+        const weeklyData = history.slice(0, 7);
+
+        if (weeklyData.length === 0) {
+            return;
+        }
+
+        document.getElementById('step-home').classList.remove('active');
+        document.getElementById('step-home').style.display = 'none';
+        document.getElementById('questionnaire-wrapper').style.display = 'block';
+        goToStep('loading');
+        
+        document.getElementById('loading-subtext').innerText = "Menyusun rekam jejak mingguanmu...";
+        loadingInterval = loadingBreathingLoop();
+
+        const summaryDataStr = weeklyData.map((e, idx) => {
+            if (e.type === 'reframe') {
+                return `Catatan ${idx+1} (${e.date}): [Fitur Urai Pikiran] Cemas karena: ${e.originalThought}`;
+            }
+            return `Catatan ${idx+1} (${e.date}): Mood [${e.mood}], Energi [${e.energy}], Jurnal [${e.thought || 'Kosong'}]`;
+        }).join(" | ");
+
+        const systemPrompt = `Kamu adalah 'Ruang Tenang', sahabat virtual yang mindfulness. Buatlah Laporan Mingguan atau Evaluasi berdasarkan riwayat check-in pengguna yang bernama ${userName}.
+        1. Analisis tren atau pola perasaan, energi, dan kecemasan pengguna selama beberapa catatan terakhir.
+        2. Gunakan bahasa Indonesia yang manis, hangat, dan estetik (seperti surat untuk sahabat).
+        3. Berikan apresiasi atas perjuangan mereka, bagaimanapun kondisinya.
+        4. Akhiri dengan satu kalimat penyemangat untuk menyambut minggu yang baru.
+        5. Format: Maksimal 3 paragraf pendek. Gunakan emoji estetik yang kalem.`;
+
+        const userQuery = `Data Riwayat Check-In: ${summaryDataStr}. Tolong buatkan aku evaluasi mingguan.`;
+
+        let aiReportFinal = "";
+
+        try {
+            aiReportFinal = await fetchFromAI(userQuery, systemPrompt);
+            if (!aiReportFinal) throw new Error("Response kosong dari AI");
+        } catch (error) {
+            console.error("AI Error:", error);
+            aiReportFinal = "Maaf, aku sedang kesulitan menyusun laporan mingguanmu saat ini. Namun satu hal yang ingin kusampaikan: kamu sudah bertahan dan berjuang dengan sangat baik minggu ini. Beristirahatlah dengan tenang. 🌿🤍";
+        }
+
+        setTimeout(() => {
+            clearInterval(loadingInterval);
+            document.getElementById('weekly-report-text').innerText = aiReportFinal;
+            goToStep('weekly-report');
+        }, 4000);
+    }
+
+    loadHistory();
+    initApp();
+
+</script>
+
+</body>
+</html>
